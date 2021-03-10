@@ -295,7 +295,7 @@ form도 fields를 all로 지정해줬더니, user의 foreign key가 이상하게
 
    ​	2. 다만 그 과정에서 중간에 signup의 `CustomUserCreationForm`의 인자값을 `__all__` 로 받으면 어떻게 되나 궁금해서 실험해 보았는데 다음과 같이 매우 개판으로 나왔었다. 바로 fields에 직접 지정 하는 방식으로 바꿨다.
 
-![image-20200513125550855](C:/Users/DonghoonKang/Desktop/Django_README/README.assets/image-20200513125550855.png)
+![image-20200513125550855](./README.assets/image-20200513125550855.png)
 
 ​	3. **accounts 앱의 팔로우와 좋아요 기능을 어느 곳에 달아야 할지 UI/ UX 적인 측면에서 고민을 많이 했다.** 처음 accounts 앱을 만들 당시에는 서로의 프로필을 주소창에 직접 입력해야만 들어갈 수 있었기 때문에, 이후 movies app을 완성 한 후, 각자가 리뷰를 쓰면 그 리뷰를 쓴 사람의 리뷰 유저 네임에 accounts/profile 태그를 달아 들어가 그 사람을 팔로우 할 수 있도록 만들었다. 
 
@@ -304,7 +304,7 @@ form도 fields를 all로 지정해줬더니, user의 foreign key가 이상하게
 1. **가장 어려웠던 것은 모델링이었다.**  accounts를 제외하고서라도, 1:N 이 3중으로 종속 되어 있는 관계를 어떻게 만들까 고민하는게 가장 까다로운 일 이었다. 처음엔 기능별로 app을 나누어 작업 하다가, 각 app끼리 url 정보를 넘기는 것에서 문제가 발생해서, 아예 movies라는 app 하나에 `movies`와 `reviews` `comments` 까지 전부 넣었는데, 이는 나중에 프로젝트를 싹 갈아 엎고, 그 뒤로도 url 설정과 views.py 에 인자값 넘겨주는 것에 매우 골머리를 썩게 만드는 결과를 가져왔다. 왜 강사님들이 `'하나의 앱, 하나의 기능'`을 강조 하시는지 몸소 깨우칠 수 있었다.
 
 2. url patterns를 짜는 것부터가 고역이었다.
-   ![image-20200514212513763](C:/Users/DonghoonKang/Desktop/Django_README/README.assets/image-20200514212513763.png)
+   ![image-20200514212513763](./README.assets/image-20200514212513763.png)
 
    url에 `movie_pk`, `review_pk`,`comments_pk`까지 세개를 중첩해서 쌓다보니 **views.py 에 인자값을 넘길때 고생했다.** url이 길어지는 것은 실제 개발할때는 어쩔 수 없이 오는 문제겠지만, 굳이 한 앱에서 저렇게 까지 할 필요는 없는 것 같다.
 
@@ -312,11 +312,11 @@ form도 fields를 all로 지정해줬더니, user의 foreign key가 이상하게
 
 4. class에 @@@ 형의 도움으로 `__str__` 을 넣었는데, 원하는 무비의 foreign key 값을 왼편엔 저장값, 오른쪽엔 출력값으로 설정해서 나중에 Review에서 movie를 참조할 때 사용 할 수 있도록 했다. 그 전엔 이걸 하는 법을 몰라 movie값을 exclude로 form에서 받아 오지 않고, commit=False로 넘기는 방법을 사용했었는데, 이런식으로 구현이 가능해서 신기하고 보람찼다.
 
-   ![image-20200514213710691](C:/Users/DonghoonKang/Desktop/Django_README/README.assets/image-20200514213710691.png)
+   ![image-20200514213710691](./README.assets/image-20200514213710691.png)
 
 5. **html 문서에서 오류가 나면 답이 없다**. review_detail에 movie namespace 가 없다는 문제로 한참을 골머리를 썩었는데, html은 정확히 어디에서 틀렸는지 정확히 파악하기 어렵기 때문에(bootstrap을 적용 시키면 bootstrap을 사용해서 html을 rendering 하는 부분에서 오류가 나는 것으로 파악을 하기 때문인 듯) 한 문장 한 문장 지웠다가 서버를 돌렸다가 하는 과정을 반복해서 디버깅을 해야하기 때문에 시간이 굉장히 오래 걸렸다. 틀렸던 부분은 html page에서도 
 
-![image-20200514214148262](C:/Users/DonghoonKang/Desktop/Django_README/README.assets/image-20200514214148262.png)
+![image-20200514214148262](./README.assets/image-20200514214148262.png)
 
 다음과 같은 부분에 **인자값을 여러개 넣어줘야 하는데**, review.movie.pk 와 같이 foreignkey 정방향으로 참조하는 것을 생각해내지 못해서 꽤 오랜 시간 헤매었다. 쿼리셋을 다루는 것에 더욱 익숙해져야 할 것 같다.
 
@@ -460,7 +460,7 @@ form도 fields를 all로 지정해줬더니, user의 foreign key가 이상하게
 
 ### 6. 총평
 
-![image-20200521004941879](C:/Users/DonghoonKang/Desktop/Django_README/README.assets/image-20200521004941879.png)
+![image-20200521004941879](./README.assets/image-20200521004941879.png)
 
 처음 프로젝트를 받아 읽어보았을 땐, 구현해야 할 내용이 많지 않아 수월하겠다고 생각했는데, 경기도 오산이었다. 모델링의 쿼리셋을 자유자재로 다루지 못했기에, 간단한 '각 영화에 딸린 모든 장르 출력' 과 같은 기능도 구현할 때 애를 먹어서, 더욱 복습의 중요성을 깨닫게 되었다.
 
